@@ -63,9 +63,17 @@ body {
   margin: 4px 2px;
   cursor: pointer;
 }
+
+/* Add this CSS for the sold-out button */
+.buy-button.sold-out-button {
+  background-color: #FF6666;
+  cursor: not-allowed;
+}
+
+
 /* Add this CSS to customize the button */
 .checkout-button {
-  background-color: #000033;
+  background-color: #66B266;
   color: white;
   border: none;
   border-radius: 10px;
