@@ -6,7 +6,7 @@
     <link rel="logo" type="image/png" href="../coursework1_M00791121/images/logo.png">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script src="activities.js"></script>
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 </head>
@@ -15,10 +15,19 @@
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
+            <div class="sort">
+                <label for="sortSelect">Sort by:</label>
+                <select id="sortSelect" v-model="selectedSort" @change="sortProducts">
+                    <option value="all">All</option>
+                    <option value="title">Subject</option>
+                    <option value="location">Location</option>
+                    <option value="availableInventory">Available Spaces</option>
+                </select>
             <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
                 <span class="cart-icon fas fa-cart-plus"></span>
                 Checkout ({{ cartItemCount }})
-            </button>            
+            </button>
+
         </header>
         <main>
             <div v-if="showActivity" class="activity-box">
@@ -35,9 +44,9 @@
                             <span v-for="n in 5 - activity.rating">☆</span>
                         </div>
                         <button @click="addToCart(activity)" :disabled="!canAddToCart(activity)"
-                        :class="{ 'sold-out-button': !canAddToCart(activity) }" class="buy-button">
-                    {{ canAddToCart(activity) ? 'Add to cart' : 'All out!' }}
-                </button>
+                            :class="{ 'sold-out-button': !canAddToCart(activity) }" class="buy-button">
+                            {{ canAddToCart(activity) ? 'Add to cart' : 'All out!' }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -85,6 +94,7 @@
             </div>
         </main>
     </div>
+
     <script type="text/javascript">
         let webstore = new Vue({
             el: "#app",
@@ -92,6 +102,7 @@
                 sitename: "After School Activities",
                 showActivity: true,
                 activities: activities,
+                selectedSort:[],
                 order: {
                     firstName: '',
                     lastName: '',
@@ -111,8 +122,30 @@
                     dontSendGift: 'Do Not send as a gift'
                 },
                 cart: [],
+                sortedProducts: [],
             },
             methods: {
+                sortProducts() {
+                    let activitiesArray = this.activities.slice(0);
+
+                    switch (this.selectedSort) {
+                        case 'title':
+                            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
+                            break;
+                        case 'location':
+                            activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
+                            break;
+                        case 'availableInventory':
+                            activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
+                            break;
+                        default:
+                            // Default sorting (original order in the array)
+                            break;
+                    }
+
+                    this.sortedProducts = activitiesArray;
+                },
+
                 addToCart: function (activity) {
                     if (this.canAddToCart(activity) && activity.availableInventory > 0) {
                         this.cart.push(activity.id);
@@ -130,25 +163,19 @@
                 },
                 cartCount(id) {
                     return this.cart.filter(itemId => itemId === id).length;
-                }
+                },
+
             },
             computed: {
                 cartItemCount: function () {
                     return this.cart.length || '';
                 },
-                sortedProducts() {
-                    let activitiesArray = this.activities.slice(0);
-                    function compare(a, b) {
-                        if (a.price > b.price)
-                            return 1;
-                        if (a.price < b.price)
-                            return -1;
-                        return 0;
-                    }
-                    return activitiesArray.sort(compare);
-                }
             },
+            created() {
+                    this.sortProducts();
+                },
         });
+
     </script>
 </body>
 
