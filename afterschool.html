@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>After School Activities</title>
+    <link rel="logo" type="image/png" href="../coursework1_M00791121/images/logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="activities.js"></script>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+            <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
+                <span class="cart-icon fas fa-cart-plus"></span>
+                Checkout ({{ cartItemCount }})
+            </button>            
+        </header>
+        <main>
+            <div v-if="showActivity" class="activity-box">
+                <div v-for="activity in sortedProducts" :key="activity.id" class="activity-item">
+                    <figure>
+                        <img v-bind:src="activity.image" alt="Activity Image">
+                    </figure>
+                    <div class="activity-details">
+                        <h2 v-text="activity.title"></h2>
+                        <p v-html="activity.location"></p>
+                        <p class="activity-price">Price: AED {{ activity.price }}</p>
+                        <div>
+                            <span v-for="n in activity.rating">★</span>
+                            <span v-for="n in 5 - activity.rating">☆</span>
+                        </div>
+                        <button @click="addToCart(activity)" :disabled="!canAddToCart(activity)"
+                        :class="{ 'sold-out-button': !canAddToCart(activity) }" class="buy-button">
+                    {{ canAddToCart(activity) ? 'Add to cart' : 'All out!' }}
+                </button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <h2>Checkout</h2>
+                <p>
+                    <strong>First Name:</strong>
+                    <input v-model.trim="order.firstName" />
+                </p>
+                <p><strong>Address:</strong> <input v-model="order.address" /></p>
+                <p><strong>City:</strong> <input v-model="order.city" /></p>
+
+                <p>
+                    <strong>State:</strong>
+                    <select v-model="order.state" class="form-control">
+                        <option disabled value="">State</option>
+                        <option v-for="(abbreviation, state) in states" :value="abbreviation">{{ state }}</option>
+                    </select>
+                </p>
+                <p><strong>Zip/Postal Code:</strong> <input v-model="order.zip" /></p>
+
+                <p>
+                    <input type="checkbox" id="gift" value="true" v-model="order.gift">
+                    <label for="gift">Ship As Gift?</label>
+                </p>
+
+                <p>
+                    <input type="radio" id="home" value="Home" v-model="order.method">
+                    <label for="home">Home</label>
+                    <input type="radio" id="business" value="Business" v-model="order.method">
+                    <label for="business">Business</label>
+                </p>
+
+                <h2>Order Information</h2>
+                <p>First Name: {{ order.firstName }}</p>
+                <p>Last Name: {{ order.lastName }}</p>
+                <p>Address: {{ order.address }}</p>
+                <p>City: {{ order.city }}</p>
+                <p>Zip: {{ order.zip }}</p>
+                <p>State: {{ order.state }}</p>
+                <p>Method: {{ order.method }}</p>
+                <p>Gift: {{ order.gift }}</p>
+
+                <button @click="submitForm" :disabled="cart.length === 0">Place Order</button>
+            </div>
+        </main>
+    </div>
+    <script type="text/javascript">
+        let webstore = new Vue({
+            el: "#app",
+            data: {
+                sitename: "After School Activities",
+                showActivity: true,
+                activities: activities,
+                order: {
+                    firstName: '',
+                    lastName: '',
+                    address: '',
+                    city: '',
+                    zip: '',
+                    states: {
+                        'Alabama': 'AL',
+                        'Alaska': 'AK',
+                        'Arizona': 'AR',
+                        'California': 'CA',
+                        'Nevada': 'NV'
+                    },
+
+                    method: 'Home',
+                    sendGift: 'Send as a Gift',
+                    dontSendGift: 'Do Not send as a gift'
+                },
+                cart: [],
+            },
+            methods: {
+                addToCart: function (activity) {
+                    if (this.canAddToCart(activity) && activity.availableInventory > 0) {
+                        this.cart.push(activity.id);
+                        activity.availableInventory--; // Decrease availability
+                    }
+                },
+                showCheckout() {
+                    this.showActivity = !this.showActivity;
+                },
+                submitForm() {
+                    alert('Order Submitted!');
+                },
+                canAddToCart: function (activity) {
+                    return activity.availableInventory > 0;
+                },
+                cartCount(id) {
+                    return this.cart.filter(itemId => itemId === id).length;
+                }
+            },
+            computed: {
+                cartItemCount: function () {
+                    return this.cart.length || '';
+                },
+                sortedProducts() {
+                    let activitiesArray = this.activities.slice(0);
+                    function compare(a, b) {
+                        if (a.price > b.price)
+                            return 1;
+                        if (a.price < b.price)
+                            return -1;
+                        return 0;
+                    }
+                    return activitiesArray.sort(compare);
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
