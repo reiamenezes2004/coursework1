@@ -20,12 +20,15 @@
                 <label for="sortSelect">Sort by:</label>
                 <select id="sortSelect" v-model="selectedSort" @change="sortProducts">
                     <option value="all">All</option>
-                    <option value="title">Subject</option>
-                    <option value="location">Location</option>
+                    <option value="title">Subject (Ascending)</option>
+                    <option value="titleDesc">Subject (Descending)</option>
+                    <option value="location">Location (Ascending)</option>
+                    <option value="locationDesc">Location (Descending)</option>
                     <option value="availableInventory">Available Spaces</option>
-                    <option value="priceHightoLow"> Price: High to Low</option>
-                    <option value="priceLowtoHigh"> Price: Low to High</option>
+                    <option value="priceLowtoHigh">Price: Low to High</option>
+                    <option value="priceHightoLow">Price: High to Low</option>
                 </select>
+
             </div>
             <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
                 <span class="cart-icon fas fa-cart-plus"></span>
@@ -90,6 +93,15 @@
 
                     <button @click="submitForm" :disabled="cart.length === 0">Place Order</button>
                 </div>
+                <h2>Cart</h2>
+                <div v-if="cart.length ===0">
+                    <p>No activities have been added</p>
+                </div>
+                <!-- <div v-else>
+                    <div v-for="activity.id in cart" :key="activity.id">
+                        <p>Activity: {{ getActivityById)activity.id).title}}</p>
+                    </div> -->
+                </div>
         </main>
     </div>
 
@@ -124,23 +136,27 @@
                         case 'title':
                             activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
                             break;
+                        case 'titleDesc':
+                            activitiesArray.sort((a, b) => b.title.localeCompare(a.title));
+                            break;
                         case 'location':
                             activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
+                            break;
+                        case 'locationDesc':
+                            activitiesArray.sort((a, b) => b.location.localeCompare(a.location));
                             break;
                         case 'availableInventory':
                             activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
                             break;
-                        case 'priceHightoLow':
-                            activitiesArray.sort((a, b) => b.price - a.price);
-                            break;
                         case 'priceLowtoHigh':
                             activitiesArray.sort((a, b) => a.price - b.price);
+                            break;
+                        case 'priceHightoLow':
+                            activitiesArray.sort((a, b) => b.price - a.price);
                             break;
                         default:
                             break;
                     }
-
-
 
                     if (this.search.trim() !== '') {
                         activitiesArray = activitiesArray.filter(activity =>
@@ -152,10 +168,11 @@
                 },
 
 
+
                 addToCart: function (activity) {
                     if (this.canAddToCart(activity) && activity.availableInventory > 0) {
                         this.cart.push(activity.id);
-                        activity.availableInventory--; // Decreases availability
+                        activity.availableInventory--;
                     }
                 },
                 showCheckout() {
@@ -170,6 +187,9 @@
                 cartCount(id) {
                     return this.cart.filter(itemId => itemId === id).length;
                 },
+                // getActivityById(activityId) {
+                //     return this.activities.find(activity => activity.id === activityId) || {};
+                // },
 
             },
             computed: {
