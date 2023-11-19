@@ -22,11 +22,14 @@
                     <option value="title">Subject</option>
                     <option value="location">Location</option>
                     <option value="availableInventory">Available Spaces</option>
+                    <option value="priceHightoLow"> Price: High to Low</option>
+                    <option value="priceLowtoHigh"> Price: Low to High</option>
                 </select>
-            <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
-                <span class="cart-icon fas fa-cart-plus"></span>
-                Checkout ({{ cartItemCount }})
-            </button>
+                </div>
+                <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
+                    <span class="cart-icon fas fa-cart-plus"></span>
+                    Checkout ({{ cartItemCount }})
+                </button>
 
         </header>
         <main>
@@ -102,7 +105,7 @@
                 sitename: "After School Activities",
                 showActivity: true,
                 activities: activities,
-                selectedSort:[],
+                selectedSort: [],
                 order: {
                     firstName: '',
                     lastName: '',
@@ -126,30 +129,37 @@
             },
             methods: {
                 sortProducts() {
-                    let activitiesArray = this.activities.slice(0);
+    let activitiesArray = this.activities.slice(0);
 
-                    switch (this.selectedSort) {
-                        case 'title':
-                            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
-                            break;
-                        case 'location':
-                            activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
-                            break;
-                        case 'availableInventory':
-                            activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
-                            break;
-                        default:
-                            // Default sorting (original order in the array)
-                            break;
-                    }
+    switch (this.selectedSort) {
+        case 'title':
+            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+        case 'location':
+            activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
+            break;
+        case 'availableInventory':
+            activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
+            break;
+        case 'priceHightoLow':
+            activitiesArray.sort((a, b) => b.price - a.price);
+            break;
+        case 'priceLowtoHigh':
+            activitiesArray.sort((a, b) => a.price - b.price);
+            break;
+        default:
+            this.sortedProducts = activitiesArray;
+            return;
+    }
 
-                    this.sortedProducts = activitiesArray;
-                },
+    this.sortedProducts = activitiesArray;
+},
+
 
                 addToCart: function (activity) {
                     if (this.canAddToCart(activity) && activity.availableInventory > 0) {
                         this.cart.push(activity.id);
-                        activity.availableInventory--; // Decrease availability
+                        activity.availableInventory--; // Decreases availability
                     }
                 },
                 showCheckout() {
@@ -172,8 +182,8 @@
                 },
             },
             created() {
-                    this.sortProducts();
-                },
+                this.sortProducts();
+            },
         });
 
     </script>
