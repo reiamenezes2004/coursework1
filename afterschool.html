@@ -11,10 +11,11 @@
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 </head>
 
-<body>
+<body class="checkout">
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
+            <input type="text" v-model="search" placeholder="Search">
             <div class="sort">
                 <label for="sortSelect">Sort by:</label>
                 <select id="sortSelect" v-model="selectedSort" @change="sortProducts">
@@ -25,11 +26,11 @@
                     <option value="priceHightoLow"> Price: High to Low</option>
                     <option value="priceLowtoHigh"> Price: Low to High</option>
                 </select>
-                </div>
-                <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
-                    <span class="cart-icon fas fa-cart-plus"></span>
-                    Checkout ({{ cartItemCount }})
-                </button>
+            </div>
+            <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
+                <span class="cart-icon fas fa-cart-plus"></span>
+                Checkout ({{ cartItemCount }})
+            </button>
 
         </header>
         <main>
@@ -53,48 +54,42 @@
                     </div>
                 </div>
             </div>
+
             <div v-else>
-                <h2>Checkout</h2>
-                <p>
-                    <strong>First Name:</strong>
-                    <input v-model.trim="order.firstName" />
-                </p>
-                <p><strong>Address:</strong> <input v-model="order.address" /></p>
-                <p><strong>City:</strong> <input v-model="order.city" /></p>
+                <div class="checkout-container">
+                    <h2>Checkout</h2>
+                    <p>
+                        <strong>First Name:</strong>
+                        <input v-model.trim="order.firstName" />
+                    </p>
+                    <p><strong>Address:</strong> <input v-model="order.address" /></p>
+                    <p><strong>City:</strong> <input v-model="order.city" /></p>
+                    <p><strong>Zip/Postal Code:</strong> <input v-model="order.zip" /></p>
 
-                <p>
-                    <strong>State:</strong>
-                    <select v-model="order.state" class="form-control">
-                        <option disabled value="">State</option>
-                        <option v-for="(abbreviation, state) in states" :value="abbreviation">{{ state }}</option>
-                    </select>
-                </p>
-                <p><strong>Zip/Postal Code:</strong> <input v-model="order.zip" /></p>
+                    <p>
+                        <input type="checkbox" id="gift" value="true" v-model="order.gift">
+                        <label for="gift">Ship As Gift?</label>
+                    </p>
 
-                <p>
-                    <input type="checkbox" id="gift" value="true" v-model="order.gift">
-                    <label for="gift">Ship As Gift?</label>
-                </p>
+                    <p>
+                        <input type="radio" id="home" value="Home" v-model="order.method">
+                        <label for="home">Home</label>
+                        <input type="radio" id="business" value="Business" v-model="order.method">
+                        <label for="business">Business</label>
+                    </p>
 
-                <p>
-                    <input type="radio" id="home" value="Home" v-model="order.method">
-                    <label for="home">Home</label>
-                    <input type="radio" id="business" value="Business" v-model="order.method">
-                    <label for="business">Business</label>
-                </p>
+                    <h2>Order Information</h2>
+                    <p>First Name: {{ order.firstName }}</p>
+                    <p>Last Name: {{ order.lastName }}</p>
+                    <p>Address: {{ order.address }}</p>
+                    <p>City: {{ order.city }}</p>
+                    <p>Zip: {{ order.zip }}</p>
+                    <p>State: {{ order.state }}</p>
+                    <p>Method: {{ order.method }}</p>
+                    <p>Gift: {{ order.gift }}</p>
 
-                <h2>Order Information</h2>
-                <p>First Name: {{ order.firstName }}</p>
-                <p>Last Name: {{ order.lastName }}</p>
-                <p>Address: {{ order.address }}</p>
-                <p>City: {{ order.city }}</p>
-                <p>Zip: {{ order.zip }}</p>
-                <p>State: {{ order.state }}</p>
-                <p>Method: {{ order.method }}</p>
-                <p>Gift: {{ order.gift }}</p>
-
-                <button @click="submitForm" :disabled="cart.length === 0">Place Order</button>
-            </div>
+                    <button @click="submitForm" :disabled="cart.length === 0">Place Order</button>
+                </div>
         </main>
     </div>
 
@@ -106,19 +101,13 @@
                 showActivity: true,
                 activities: activities,
                 selectedSort: [],
+                search: '',
                 order: {
                     firstName: '',
                     lastName: '',
                     address: '',
                     city: '',
                     zip: '',
-                    states: {
-                        'Alabama': 'AL',
-                        'Alaska': 'AK',
-                        'Arizona': 'AR',
-                        'California': 'CA',
-                        'Nevada': 'NV'
-                    },
 
                     method: 'Home',
                     sendGift: 'Send as a Gift',
@@ -129,31 +118,38 @@
             },
             methods: {
                 sortProducts() {
-    let activitiesArray = this.activities.slice(0);
+                    let activitiesArray = this.activities.slice(0);
 
-    switch (this.selectedSort) {
-        case 'title':
-            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
-            break;
-        case 'location':
-            activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
-            break;
-        case 'availableInventory':
-            activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
-            break;
-        case 'priceHightoLow':
-            activitiesArray.sort((a, b) => b.price - a.price);
-            break;
-        case 'priceLowtoHigh':
-            activitiesArray.sort((a, b) => a.price - b.price);
-            break;
-        default:
-            this.sortedProducts = activitiesArray;
-            return;
-    }
+                    switch (this.selectedSort) {
+                        case 'title':
+                            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
+                            break;
+                        case 'location':
+                            activitiesArray.sort((a, b) => a.location.localeCompare(b.location));
+                            break;
+                        case 'availableInventory':
+                            activitiesArray.sort((a, b) => a.availableInventory - b.availableInventory);
+                            break;
+                        case 'priceHightoLow':
+                            activitiesArray.sort((a, b) => b.price - a.price);
+                            break;
+                        case 'priceLowtoHigh':
+                            activitiesArray.sort((a, b) => a.price - b.price);
+                            break;
+                        default:
+                            break;
+                    }
 
-    this.sortedProducts = activitiesArray;
-},
+
+
+                    if (this.search.trim() !== '') {
+                        activitiesArray = activitiesArray.filter(activity =>
+                            activity.title.toLowerCase().includes(this.search.toLowerCase()) ||
+                            activity.location.toLowerCase().includes(this.search.toLowerCase())
+                        );
+                    }
+                    this.sortedProducts = activitiesArray;
+                },
 
 
                 addToCart: function (activity) {
@@ -184,6 +180,9 @@
             created() {
                 this.sortProducts();
             },
+            watch: {
+                search: 'sortProducts',
+            }
         });
 
     </script>
