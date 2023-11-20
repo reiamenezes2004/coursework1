@@ -28,13 +28,11 @@
                     <option value="priceLowtoHigh">Price: Low to High</option>
                     <option value="priceHightoLow">Price: High to Low</option>
                 </select>
-
             </div>
             <button class="checkout-button" @click="showCheckout" :disabled="cart.length === 0">
                 <span class="cart-icon fas fa-cart-plus"></span>
                 Checkout ({{ cartItemCount }})
             </button>
-
         </header>
         <main>
             <div v-if="showActivity" class="activity-box">
@@ -62,46 +60,18 @@
                 <div class="checkout-container">
                     <h2>Checkout</h2>
                     <p>
-                        <strong>First Name:</strong>
-                        <input v-model.trim="order.firstName" />
+                        <strong>Name:</strong>
+                        <input v-model.trim="order.name" pattern="[A-Za-z]+" title="Enter your full name:" required />
                     </p>
-                    <p><strong>Address:</strong> <input v-model="order.address" /></p>
-                    <p><strong>City:</strong> <input v-model="order.city" /></p>
-                    <p><strong>Zip/Postal Code:</strong> <input v-model="order.zip" /></p>
-
                     <p>
-                        <input type="checkbox" id="gift" value="true" v-model="order.gift">
-                        <label for="gift">Ship As Gift?</label>
+                        <strong>Number:</strong>
+                        <input v-model.trim="order.number" pattern="[0-9]+" title="Enter your phone number:" required />
                     </p>
-
-                    <p>
-                        <input type="radio" id="home" value="Home" v-model="order.method">
-                        <label for="home">Home</label>
-                        <input type="radio" id="business" value="Business" v-model="order.method">
-                        <label for="business">Business</label>
-                    </p>
-
-                    <h2>Order Information</h2>
-                    <p>First Name: {{ order.firstName }}</p>
-                    <p>Last Name: {{ order.lastName }}</p>
-                    <p>Address: {{ order.address }}</p>
-                    <p>City: {{ order.city }}</p>
-                    <p>Zip: {{ order.zip }}</p>
-                    <p>State: {{ order.state }}</p>
-                    <p>Method: {{ order.method }}</p>
-                    <p>Gift: {{ order.gift }}</p>
-
-                    <button @click="submitForm" :disabled="cart.length === 0">Place Order</button>
+                    <button @click="submitForm" :disabled="!isFormValid" class="place-order-button">Place
+                        Order!</button>
                 </div>
-                <h2>Cart</h2>
-                <div v-if="cart.length ===0">
-                    <p>No activities have been added</p>
-                </div>
-                <!-- <div v-else>
-                    <div v-for="activity.id in cart" :key="activity.id">
-                        <p>Activity: {{ getActivityById)activity.id).title}}</p>
-                    </div> -->
-                </div>
+              
+            </div>
         </main>
     </div>
 
@@ -114,19 +84,12 @@
                 activities: activities,
                 selectedSort: [],
                 search: '',
-                order: {
-                    firstName: '',
-                    lastName: '',
-                    address: '',
-                    city: '',
-                    zip: '',
-
-                    method: 'Home',
-                    sendGift: 'Send as a Gift',
-                    dontSendGift: 'Do Not send as a gift'
-                },
                 cart: [],
                 sortedProducts: [],
+                order: {
+                    name: '',
+                    number: ''
+                }
             },
             methods: {
                 sortProducts() {
@@ -166,9 +129,6 @@
                     }
                     this.sortedProducts = activitiesArray;
                 },
-
-
-
                 addToCart: function (activity) {
                     if (this.canAddToCart(activity) && activity.availableInventory > 0) {
                         this.cart.push(activity.id);
@@ -184,27 +144,22 @@
                 canAddToCart: function (activity) {
                     return activity.availableInventory > 0;
                 },
-                cartCount(id) {
-                    return this.cart.filter(itemId => itemId === id).length;
-                },
-                // getActivityById(activityId) {
-                //     return this.activities.find(activity => activity.id === activityId) || {};
-                // },
-
             },
             computed: {
                 cartItemCount: function () {
                     return this.cart.length || '';
                 },
+                isFormValid: function () {
+                    return this.order.name && this.order.number;
+                }
             },
             created() {
                 this.sortProducts();
             },
             watch: {
                 search: 'sortProducts',
-            }
+            },
         });
-
     </script>
 </body>
 
