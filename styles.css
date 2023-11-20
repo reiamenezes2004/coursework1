@@ -1,7 +1,7 @@
 body {
   background-color: #577099;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  margin: 0; /* Reset default body margin */
+  margin: 0; 
   text-align: center;
 }
 
@@ -70,14 +70,11 @@ body {
   cursor: pointer;
 }
 
-/* Add this CSS for the sold-out button */
 .buy-button.sold-out-button {
   background-color: #FF6666;
   cursor: not-allowed;
 }
 
-
-/* Add this CSS to customize the button */
 .checkout-button {
   background-color: #66B266;
   color: white;
@@ -95,12 +92,11 @@ body {
   margin-right: 8px;
 }
 
-/* Change color when disabled */
 .checkout-button:disabled {
   background-color: #7a7a7a;
   cursor: not-allowed;
 }
-/* Add this CSS to style the checkout form */
+
 .checkout .checkout-container {
   max-width: 600px;
   margin: 20px auto;
@@ -111,10 +107,10 @@ body {
 }
 
 .checkout .checkout-container input {
-  width: 100%;
-  padding: 10px;
+  width: 70%;
+  padding: 5px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 3px solid #ccc;
   border-radius: 5px;
 }
 
@@ -145,18 +141,14 @@ body {
 .checkout .checkout-container button[disabled] {
   background-color: gray;
   cursor: not-allowed;
-  color: #ccc; /* You can adjust the color as needed */
+  color: #ccc; 
+}
+
+.cart-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
 }
 
 
-/* .checkout .checkout-container button: */
-
-
-/* @media (max-width:600px) {
-  .sort,
-  .checkout-button{
-    width: 100%;
-    margin: 0;
-  }
-  
-} */

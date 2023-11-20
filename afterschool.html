@@ -43,6 +43,7 @@
                     <div class="activity-details">
                         <h2 v-text="activity.title"></h2>
                         <p v-html="activity.location"></p>
+                        <p>Available Spaces: {{ activity.availableInventory }}</p> 
                         <p class="activity-price">Price: AED {{ activity.price }}</p>
                         <div>
                             <span v-for="n in activity.rating">★</span>
@@ -78,7 +79,7 @@
             <div v-if="!showActivity">
                 <h2>Cart</h2>
                 <div v-if="cartItems.length === 0">
-                    <p>No activities have been added</p>
+                    <p>Your Cart is Empty!</p>
                 </div>
                 <div v-for="cartItem in cartItems" :key="cartItem.id" class="activity-item">
                     <figure>
@@ -86,13 +87,11 @@
                     </figure>
                     <div class="activity-details">
                         <h2 v-text="cartItem.title"></h2>
-                        <button style="cursor: pointer; color: red" @click="removeFromCart(cartItem)">Delete</button>
+                        <button style="cursor: pointer; color: red" @click="removeFromCart(cartItem)">Delete Activity</button>
                     </div>
                 </div>
 
             </div>
-
-
     </div>
     </div>
 
