@@ -1,23 +1,5 @@
 let activities = [
     {
-        "id":1001,
-        "title": "Art",
-        "location": "Location: Mirdif",
-        "price": 100.00,
-        "image": "images/art.jpg",
-        "availableInventory": 5,
-        "rating": 4
-    },
-    {
-        "id":1002,
-        "title": "Chess",
-        "location": "Location: Al Nahda",
-        "price": 115.00,
-        "image":"images/chess.png",
-        "availableInventory": 5,
-        "rating": 5 
-    },
-    {
         "id":1003,
         "title": "Cricket",
         "location": "Location: Al Quoz",
@@ -45,11 +27,20 @@ let activities = [
         "rating": 5
     },
     {
-        "id":1005,
-        "title": "Karate",
+        "id":1001,
+        "title": "Art",
         "location": "Location: Mirdif",
-        "price": 150.00,
-        "image":"images/karate.png",
+        "price": 100.00,
+        "image": "images/art.jpg",
+        "availableInventory": 5,
+        "rating": 4
+    },
+    {
+        "id":1005,
+        "title": "Tennis",
+        "location": "Location: Al Nahda",
+        "price": 130.00,
+        "image":"images/tennis.jpg",
         "availableInventory": 5,
         "rating": 5
     },
@@ -63,20 +54,20 @@ let activities = [
         "rating": 4
     },
     {
+        "id":1002,
+        "title": "Chess",
+        "location": "Location: Al Nahda",
+        "price": 115.00,
+        "image":"images/chess.png",
+        "availableInventory": 5,
+        "rating": 5 
+    },
+    {
         "id":1005,
         "title": "Soccer",
         "location": "Location: Al Khail",
         "price": 120.00,
         "image":"images/soccer.jpg",
-        "availableInventory": 5,
-        "rating": 5
-    },
-    {
-        "id":1005,
-        "title": "Tennis",
-        "location": "Location: Al Nahda",
-        "price": 130.00,
-        "image":"images/tennis.jpg",
         "availableInventory": 5,
         "rating": 5
     },
@@ -88,6 +79,15 @@ let activities = [
         "image":"images/theatre.JPG",
         "availableInventory": 5,
         "rating": 3
+    },
+    {
+        "id":1005,
+        "title": "Karate",
+        "location": "Location: Mirdif",
+        "price": 150.00,
+        "image":"images/karate.png",
+        "availableInventory": 5,
+        "rating": 5
     },
 
 ]
