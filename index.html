@@ -3,10 +3,15 @@
 
 <head>
     <title>After School Activities</title>
-    <link rel="logo" type="image/png" href="../coursework1_M00791121/images/logo.png">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script src="activities.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        };
+    </script>
+    <link rel="manifest" href="./petstore.webmanifest">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 </head>
@@ -15,10 +20,10 @@
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
-            <input type="text" v-model="search" placeholder="Search">
+            <input type="text" v-model="search" placeholder="Search">  <!--binds and links the input to the vue instance for seach -->
             <div class="sort">
                 <label for="sortSelect">Sort by:</label>
-                <select id="sortSelect" v-model="selectedSort" @change="sortProducts">
+                <select id="sortSelect" v-model="selectedSort" @change="sortProducts"> <!--short for v-on is an event listener-->
                     <option value="all">All</option>
                     <option value="title">Subject (Ascending)</option>
                     <option value="titleDesc">Subject (Descending)</option>
@@ -35,8 +40,8 @@
             </button>
         </header>
         <main>
-            <div v-if="showActivity" class="activity-box">
-                <div v-for="activity in sortedProducts" :key="activity.id" class="activity-item">
+            <div v-if="showActivity" class="activity-box"> <!--combines the checkout and activity lists page-->
+                <div v-for="activity in sortedProducts" :key="activity.id" class="activity-item"> <!--creats the list of activities-->
                     <figure>
                         <img v-bind:src="activity.image" alt="Activity Image">
                     </figure>
@@ -62,7 +67,7 @@
                     <h2>Checkout</h2>
                     <p>
                         <strong>Name:</strong>
-                        <input v-model.trim="order.name" @input="validateName"
+                        <input v-model.trim="order.name" @input="validateName"  
                             title="Enter your full name (letters only)" required />
                     </p>
                     <p>
@@ -76,7 +81,7 @@
 
             </div>
 
-            <div v-if="!showActivity">
+            <div v-if="!showActivity"> <!--shows or hides a feature on the webpage-->
                 <h2>Cart</h2>
                 <div v-if="cartItems.length === 0">
                     <p>Your Cart is Empty!</p>
@@ -122,7 +127,7 @@
 
                     switch (this.selectedSort) {
                         case 'title':
-                            activitiesArray.sort((a, b) => a.title.localeCompare(b.title));
+                            activitiesArray.sort((a, b) => a.title.localeCompare(b.title)); <!-- shows-->
                             break;
                         case 'titleDesc':
                             activitiesArray.sort((a, b) => b.title.localeCompare(a.title));
