@@ -2,7 +2,7 @@ var cacheName = 'afterschoolactivities-v1';
 var cacheFiles = [
     'index.html',
     'afterschoolactivities.webmanifest',
-    'products.js',
+    'activities.js',
     'images/art.jpg',
     'images/chess.png',
     'images/cricket.jpg',
