@@ -1,6 +1,6 @@
 let activities = [
     {
-        "id":1003,
+        "id":1001,
         "title": "Cricket",
         "location": "Location: Al Quoz",
         "price": 130.00,
@@ -9,7 +9,7 @@ let activities = [
         "rating": 5
     },
     {
-        "id":1004,
+        "id":1002,
         "title": "Dance",
         "location": "Location: Al Khail",
         "price": 120.00,
@@ -18,7 +18,7 @@ let activities = [
         "rating": 3
     },
     {
-        "id":1005,
+        "id":1003,
         "title": "Gymnastics",
         "location": "Location: Muhaisnah",
         "price": 120.00,
@@ -27,7 +27,7 @@ let activities = [
         "rating": 5
     },
     {
-        "id":1001,
+        "id":1004,
         "title": "Art",
         "location": "Location: Mirdif",
         "price": 100.00,
@@ -45,7 +45,7 @@ let activities = [
         "rating": 5
     },
     {
-        "id":1005,
+        "id":1006,
         "title": "Music",
         "location": "Location: Muhaisnah",
         "price": 120.00,
@@ -54,7 +54,7 @@ let activities = [
         "rating": 4
     },
     {
-        "id":1002,
+        "id":1007,
         "title": "Chess",
         "location": "Location: Al Nahda",
         "price": 115.00,
@@ -63,7 +63,7 @@ let activities = [
         "rating": 5 
     },
     {
-        "id":1005,
+        "id":1008,
         "title": "Soccer",
         "location": "Location: Al Khail",
         "price": 120.00,
@@ -72,7 +72,7 @@ let activities = [
         "rating": 5
     },
     {
-        "id":1005,
+        "id":1009,
         "title": "Theatre",
         "location": "Location: Al Quoz",
         "price": 140.00,
@@ -81,7 +81,7 @@ let activities = [
         "rating": 3
     },
     {
-        "id":1005,
+        "id":1010,
         "title": "Karate",
         "location": "Location: Mirdif",
         "price": 150.00,
